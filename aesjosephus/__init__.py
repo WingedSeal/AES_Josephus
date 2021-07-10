@@ -1,7 +1,8 @@
-from aesjosephus.constant import *
-from aesjosephus.encryptdecrypt import encrypt, decrypt
-from aesjosephus.key import Key, key_schedule
-from aesjosephus.state import State
-import aesjosephus.avalanche
-import aesjosephus.time
-import aesjosephus.utils
+from .constant import *
+from .encryptdecrypt import encrypt, decrypt
+from .key import Key, key_schedule
+from .state import State
+from .mode import Mode
+from . import avalanche
+from . import time
+from . import utils

@@ -4,7 +4,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 import unittest
 import numpy as np
 from aesjosephus import utils
-from aesjosephus import State, key
+from aesjosephus import Mode
 from aesjosephus.encryptdecrypt import encrypt, decrypt
 
 class TestAESInverseProperty(unittest.TestCase):
@@ -19,13 +19,13 @@ class TestAESInverseProperty(unittest.TestCase):
             self.assertEqual(random_string, plaintext)
 
     def test_original(self):
-        self.encryptdecrypt("normal")
+        self.encryptdecrypt(Mode.ORIGINAL)
         
     def test_josephus(self):
-        self.encryptdecrypt("josephus")
+        self.encryptdecrypt(Mode.JOSEPHUS)
 
     def test_modified_aes(self):
-        self.encryptdecrypt("modified")
+        self.encryptdecrypt(Mode.MODIFIED_ORIGINAL)
 
 
 class TestAESExampleCase(unittest.TestCase):
@@ -43,7 +43,7 @@ class TestAESExampleCase(unittest.TestCase):
             [0x15, 0xd2, 0x15, 0x4f],
             [0x16, 0xa6, 0x88, 0x3c]
         ]))
-        self.assertTrue(np.array_equal(encrypt(plaintext, cipherkey, mode="normal").array,[
+        self.assertTrue(np.array_equal(encrypt(plaintext, cipherkey, mode=Mode.ORIGINAL).array,[
             [0x39, 0x02, 0xdc, 0x19],
             [0x25, 0xdc, 0x11, 0x6a],
             [0x84, 0x09, 0x85, 0x0b],

@@ -1,5 +1,5 @@
-from aesjosephus.matrix import Matrix
-from aesjosephus import constant
+from .matrix import Matrix
+from . import constant
 
 import numpy as np
 from typing import List

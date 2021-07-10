@@ -1,5 +1,6 @@
-from aesjosephus import encrypt, decrypt
-from aesjosephus.utils import random_string
+from .mode import Mode
+from .encryptdecrypt import encrypt, decrypt
+from .utils import random_string
 
 from time import time
 from typing import Tuple, Any, Callable
@@ -16,28 +17,12 @@ def record_time(func: Callable) -> Tuple[Any, int]:
     return wrapper
 
 @record_time
-def encrypt_normal(plaintext, cipherkey):
-    return encrypt(plaintext,cipherkey,mode="normal").to_string()
+def timed_encrypt(plaintext, cipherkey, mode):
+    return encrypt(plaintext,cipherkey, mode).to_string()
 
 @record_time
-def encrypt_josephus(plaintext, cipherkey):
-    return encrypt(plaintext,cipherkey,mode="josephus").to_string()
-
-@record_time
-def encrypt_modified(plaintext, cipherkey):
-    return encrypt(plaintext,cipherkey,mode="modified").to_string()
-
-@record_time
-def decrypt_normal(ciphertext, cipherkey):
-    return decrypt(ciphertext,cipherkey,mode="normal").to_string()
-
-@record_time
-def decrypt_josephus(ciphertext, cipherkey):
-    return decrypt(ciphertext,cipherkey,mode="josephus").to_string()
-
-@record_time
-def decrypt_modified(ciphertext, cipherkey):
-    return decrypt(ciphertext,cipherkey,mode="modified").to_string()
+def timed_decrypt(ciphertext, cipherkey, mode):
+    return decrypt(ciphertext,cipherkey,mode).to_string()
 
 
 
@@ -46,12 +31,12 @@ def time_df(row: int) -> pd.DataFrame:
     time_array = []
     for _ in range(row):
         plaintext = random_string(16)
-        aes_encrypted,  aes_encryption_time = encrypt_normal(plaintext, cipherkey)
-        josephus_encrypted, josephus_encryption_time = encrypt_josephus(plaintext, cipherkey)
-        modified_aes_encrypted, modified_aes_encryption_time = encrypt_modified(plaintext, cipherkey)
-        _, aes_decryption_time = decrypt_normal(aes_encrypted, cipherkey)
-        _, josephus_decryption_time = decrypt_josephus(josephus_encrypted, cipherkey)
-        _, modified_aes_decryption_time = decrypt_modified(modified_aes_encrypted, cipherkey)
+        aes_encrypted,  aes_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.ORIGINAL)
+        josephus_encrypted, josephus_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.JOSEPHUS)
+        modified_aes_encrypted, modified_aes_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.MODIFIED_ORIGINAL)
+        _, aes_decryption_time = timed_decrypt(aes_encrypted, cipherkey, Mode.ORIGINAL)
+        _, josephus_decryption_time = timed_decrypt(josephus_encrypted, cipherkey, Mode.JOSEPHUS)
+        _, modified_aes_decryption_time = timed_decrypt(modified_aes_encrypted, cipherkey, Mode.MODIFIED_ORIGINAL)
         time_array.append([
             aes_encryption_time, 
             aes_decryption_time, 

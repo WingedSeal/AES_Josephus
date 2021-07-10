@@ -1,8 +1,9 @@
 import random
 import pandas as pd
 import os
-from aesjosephus.utils import random_string, string_to_hex 
-from aesjosephus import encrypt, decrypt
+from .utils import random_string, string_to_hex 
+from .encryptdecrypt import encrypt, decrypt
+from .mode import Mode
 
 def string_to_binary(string: str) -> str:
     return ''.join(f'{ord(char):08b}' for char in string)
@@ -25,12 +26,12 @@ def avalanche_df(row: int) -> pd.DataFrame:
     for _ in range(row):
         plaintext1 = random_string(16)
         plaintext2 = alter_char_in_string(plaintext1, 16)
-        aes_encrypted1 = encrypt(plaintext1, cipherkey, mode="normal").to_string()
-        aes_encrypted2 = encrypt(plaintext2, cipherkey, mode="normal").to_string()
-        josephus_encrypted1 = encrypt(plaintext1, cipherkey, mode="josephus").to_string()
-        josephus_encrypted2 = encrypt(plaintext2, cipherkey, mode="josephus").to_string()
-        modified_aes_encrypted1 = encrypt(plaintext1, cipherkey, mode="modified").to_string()
-        modified_aes_encrypted2 = encrypt(plaintext2, cipherkey, mode="modified").to_string()
+        aes_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.ORIGINAL).to_string()
+        aes_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.ORIGINAL).to_string()
+        josephus_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.JOSEPHUS).to_string()
+        josephus_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.JOSEPHUS).to_string()
+        modified_aes_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.MODIFIED_ORIGINAL).to_string()
+        modified_aes_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.MODIFIED_ORIGINAL).to_string()
         aes_avalanche_value = avalanche(aes_encrypted1, aes_encrypted2)
         josephus_avalanche_value = avalanche(josephus_encrypted1, josephus_encrypted2)
         modified_aes_avalanche_value = avalanche(modified_aes_encrypted1, modified_aes_encrypted2)

@@ -1,19 +1,21 @@
-from aesjosephus.state import State
-from aesjosephus.key import Key
-from aesjosephus import key
-from aesjosephus import utils 
+from .state import State
+from .key import Key
+from .mode import Mode
+from . import key
+from . import utils 
 import numpy as np
 
-def is_arg_valid(plaintext: str, cipherkey: str,mode: str):
-    if mode not in ["normal", "josephus", "modified"]: 
-        raise ValueError('mode argument can only be "normal" or "josephus or modified')
+def is_mode_valid(mode: Mode):
+    if not isinstance(mode, Mode):
+        raise ValueError('Invalid encryption mode specified.')
 
-def encrypt(plaintext: str, cipherkey: str,mode: str) -> State:
-    is_arg_valid(plaintext, cipherkey, mode)
+def encrypt(plaintext: str, cipherkey: str,mode: Mode) -> State:
+    is_mode_valid(mode)
+
     state = State(utils.string_to_state(plaintext))
     cipherkey = Key(utils.string_to_state(cipherkey))
 
-    def aes(state: State, cipherkey: Key) -> State:
+    def original(state: State, cipherkey: Key) -> State:
         state = State(np.copy(state.array))
         amount_of_round = 10
         round_keys = key.key_schedule(cipherkey, amount_of_round)
@@ -63,17 +65,17 @@ def encrypt(plaintext: str, cipherkey: str,mode: str) -> State:
         return state
 
     return {
-        "normal" : aes,
-        "modified" : modified_aes,
-        "josephus" : josephus
+        Mode.ORIGINAL : original,
+        Mode.MODIFIED_ORIGINAL : modified_aes,
+        Mode.JOSEPHUS : josephus
     }[mode](state, cipherkey)
 
-def decrypt(ciphertext: str, cipherkey: str,mode: str) -> State:
-    is_arg_valid(ciphertext, cipherkey, mode)
+def decrypt(ciphertext: str, cipherkey: str,mode: Mode) -> State:
+    is_mode_valid(mode)
     state = State(utils.string_to_state(ciphertext))
     cipherkey = Key(utils.string_to_state(cipherkey))
 
-    def aes(state: State, cipherkey: Key) -> State:
+    def original(state: State, cipherkey: Key) -> State:
         state = State(np.copy(state.array))
         amount_of_round = 10
         round_keys = key.key_schedule(cipherkey, amount_of_round)
@@ -123,7 +125,7 @@ def decrypt(ciphertext: str, cipherkey: str,mode: str) -> State:
         return state
     
     return {
-        "normal" : aes,
-        "modified" : modified_aes,
-        "josephus" : josephus
+        Mode.ORIGINAL : original,
+        Mode.MODIFIED_ORIGINAL : modified_aes,
+        Mode.JOSEPHUS : josephus
     }[mode](state, cipherkey)

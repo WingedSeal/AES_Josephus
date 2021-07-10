@@ -1,7 +1,7 @@
-from aesjosephus.matrix import Matrix
-from aesjosephus.key import Key
-from aesjosephus import utils
-from aesjosephus import constant
+from .matrix import Matrix
+from .key import Key
+from . import utils
+from . import constant
 
 import numpy as np
 from math import floor, sqrt
