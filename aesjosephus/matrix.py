@@ -7,12 +7,9 @@ def raise_error_if_invalid_state(state: np.ndarray) -> None:
     for value in state.flatten():
         if value>255:
             raise ValueError(f"Byte in state can only contain up to 255 ({value} was in the state)")
-        if value<0:
+        elif value<0 or value%1!=0:
             raise ValueError(f"Byte in state can only contain positive integer ({value} was in the state)")
-        if value%1!=0:
-            raise TypeError(f"Byte in state can only contain positive integer ({value} was in the state)")
-
-
+            
 class Matrix:
     @property
     def array(self):
