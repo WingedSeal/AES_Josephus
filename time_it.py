@@ -1,10 +1,10 @@
-from time import time
+from time import perf_counter
 from aesjosephus import encrypt, decrypt, Mode
 
 def record_time(func, *args, **kwargs):
-    start_time = time()
+    start_time = perf_counter()
     func(*args, **kwargs)
-    return time()-start_time
+    return perf_counter()-start_time
 
 def main():
     n = 100

@@ -5,12 +5,12 @@ from . import key
 from . import utils 
 import numpy as np
 
-def is_mode_valid(mode: Mode):
+def verify_mode(mode: Mode):
     if not isinstance(mode, Mode):
         raise ValueError('Invalid encryption mode specified.')
 
 def encrypt(plaintext: str, cipherkey: str,mode: Mode) -> State:
-    is_mode_valid(mode)
+    verify_mode(mode)
 
     state = State(utils.string_to_state(plaintext))
     cipherkey = Key(utils.string_to_state(cipherkey))
@@ -71,7 +71,7 @@ def encrypt(plaintext: str, cipherkey: str,mode: Mode) -> State:
     }[mode](state, cipherkey)
 
 def decrypt(ciphertext: str, cipherkey: str,mode: Mode) -> State:
-    is_mode_valid(mode)
+    verify_mode(mode)
     state = State(utils.string_to_state(ciphertext))
     cipherkey = Key(utils.string_to_state(cipherkey))
 

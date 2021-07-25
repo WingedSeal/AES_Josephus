@@ -1,6 +1,5 @@
 import random
 import pandas as pd
-import os
 from .utils import random_string, string_to_hex 
 from .encryptdecrypt import encrypt, decrypt
 from .mode import Mode

@@ -2,17 +2,15 @@ from .mode import Mode
 from .encryptdecrypt import encrypt, decrypt
 from .utils import random_string
 
-from time import time
+from time import perf_counter
 from typing import Tuple, Any, Callable
 import pandas as pd
 
 def record_time(func: Callable) -> Tuple[Any, int]:
     def wrapper(*args, **kwargs):
-        time_used = 0
-        while time_used==0:
-            start_time = time()
-            return_value = func(*args, **kwargs)
-            time_used = time()-start_time
+        start_time = perf_counter()
+        return_value = func(*args, **kwargs)
+        time_used = perf_counter()-start_time
         return return_value, time_used
     return wrapper
 

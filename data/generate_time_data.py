@@ -9,4 +9,4 @@ def main(n: int):
     df.to_csv(os.path.join(os.path.dirname(__file__), f'{FILE_NAME}.csv'), index=False)
 
 if __name__ == "__main__":
-    main(100)
+    main(10_000)
