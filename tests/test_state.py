@@ -51,18 +51,6 @@ class TestInvalidState(unittest.TestCase):
         random_array = np.random.randint(256, size=[5,5])
         with self.assertRaises(ValueError):
             State(random_array)
-    def test_too_large_byte(self):
-        random_array = np.random.randint(256,1024, size=[4,4])
-        with self.assertRaises(ValueError):
-            State(random_array)
-    def test_negative_byte(self):
-        random_array = np.random.randint(-256,0, size=[4,4])
-        with self.assertRaises(ValueError):
-            State(random_array)
-    def test_float_byte(self):
-        random_array = np.random.rand(4,4)
-        with self.assertRaises(TypeError):
-            State(random_array)
 
 if __name__ == "__main__":
     unittest.main()
