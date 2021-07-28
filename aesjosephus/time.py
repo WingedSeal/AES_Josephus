@@ -4,6 +4,7 @@ from .utils import random_string
 
 from time import perf_counter
 from typing import Tuple, Any, Callable
+from tqdm import tqdm
 import pandas as pd
 
 def record_time(func: Callable) -> Tuple[Any, int]:
@@ -27,7 +28,7 @@ def timed_decrypt(ciphertext, cipherkey, mode):
 def time_df(row: int) -> pd.DataFrame:
     cipherkey = random_string(16)
     time_array = []
-    for _ in range(row):
+    for _ in tqdm(range(row)):
         plaintext = random_string(16)
         aes_encrypted,  aes_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.ORIGINAL)
         josephus_encrypted, josephus_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.JOSEPHUS)

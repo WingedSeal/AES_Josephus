@@ -1,5 +1,6 @@
 import random
 import pandas as pd
+from tqdm import tqdm
 from .utils import random_string, string_to_hex 
 from .encryptdecrypt import encrypt, decrypt
 from .mode import Mode
@@ -22,7 +23,7 @@ def alter_char_in_string(string: str, str_length: int) -> str:
 def avalanche_df(row: int) -> pd.DataFrame:
     cipherkey = random_string(16)
     avalanche_array = []
-    for _ in range(row):
+    for _ in tqdm(range(row)):
         plaintext1 = random_string(16)
         plaintext2 = alter_char_in_string(plaintext1, 16)
         aes_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.ORIGINAL).to_string()
