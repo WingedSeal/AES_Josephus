@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 from aesjosephus import utils
 from aesjosephus import Mode
-from aesjosephus.encryptdecrypt import encrypt, decrypt
+from aesjosephus.encryptdecrypt import encrypt, decrypt, InvalidModeError
 
 class TestAESInverseProperty(unittest.TestCase):
     n = 5
@@ -50,7 +50,15 @@ class TestAESExampleCase(unittest.TestCase):
             [0x1d, 0xfb, 0x97, 0x32]
         ]))
 
+class TestInvalidMode(unittest.TestCase):
 
+    def test_invalid_mode(self):
+        plaintext = utils.random_string(16)
+        cipherkey = utils.random_string(16)
+        with self.assertRaises(InvalidModeError):
+            encrypt(plaintext, cipherkey, mode="STRING_TEST")
+        with self.assertRaises(InvalidModeError):
+            encrypt(plaintext, cipherkey, mode=1)
 
 if __name__ == "__main__":
     unittest.main()
