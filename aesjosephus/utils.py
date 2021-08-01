@@ -6,7 +6,7 @@ from string import ascii_letters, digits, punctuation
 def string_to_state(string: str) -> np.ndarray:
     if len(string) != 16: 
         raise ValueError(f"Length of given string must be 16. ({len(string)} was given.)")
-    return np.array([ord(char) for char in string],dtype="int16").reshape(4,4)
+    return np.array([ord(char) for char in string],dtype="uint8").reshape(4,4)
 
 def state_to_string(state: np.ndarray) -> str:
     if state.shape != (4,4):
