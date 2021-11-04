@@ -53,8 +53,8 @@ def time_df(row: int) -> pd.DataFrame:
         "Original_AES_Decryption_Time", 
         "Josephus_AES_Encryption_Time", 
         "Josephus_AES_Decryption_Time",
-        "Modified_AES_round_Encryption_Time", 
-        "Modified_AES_round_Decryption_Time",
-        "Modified_AES_time_Encryption_Time", 
-        "Modified_AES_time_Decryption_Time"])
+        "Modified_AES_Round_Encryption_Time", 
+        "Modified_AES_Round_Decryption_Time",
+        "Modified_AES_Time_Encryption_Time", 
+        "Modified_AES_Time_Decryption_Time"])
     return time_df

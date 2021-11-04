@@ -46,7 +46,7 @@ def encrypt(plaintext: str, cipherkey: str,mode: Mode) -> State:
 
     def modified_aes_time(state: State, cipherkey: Key) -> State:
         state = State(np.copy(state.array))
-        amount_of_round = 6
+        amount_of_round = 5
         round_keys = key_schedule(cipherkey, amount_of_round)
 
         state.add_round_key(cipherkey)
@@ -125,7 +125,7 @@ def decrypt(ciphertext: str, cipherkey: str,mode: Mode) -> State:
 
     def modified_aes_time(state: State, cipherkey: Key) -> State:
         state = State(np.copy(state.array))
-        amount_of_round = 6
+        amount_of_round = 5
         round_keys = key_schedule(cipherkey, amount_of_round)
 
         state.inv_add_round_key(round_keys[amount_of_round])
