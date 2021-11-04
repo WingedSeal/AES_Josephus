@@ -25,7 +25,8 @@ class TestAESInverseProperty(unittest.TestCase):
         self.encryptdecrypt(Mode.JOSEPHUS)
 
     def test_modified_aes(self):
-        self.encryptdecrypt(Mode.MODIFIED_ORIGINAL)
+        self.encryptdecrypt(Mode.MODIFIED_TIME)
+        self.encryptdecrypt(Mode.MODIFIED_ROUND)
 
 
 class TestAESExampleCase(unittest.TestCase):

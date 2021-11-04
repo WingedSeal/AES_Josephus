@@ -30,11 +30,14 @@ def avalanche_df(row: int) -> pd.DataFrame:
         aes_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.ORIGINAL).to_string()
         josephus_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.JOSEPHUS).to_string()
         josephus_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.JOSEPHUS).to_string()
-        modified_aes_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.MODIFIED_ORIGINAL).to_string()
-        modified_aes_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.MODIFIED_ORIGINAL).to_string()
+        modified_aes_round_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.MODIFIED_ROUND).to_string()
+        modified_aes_round_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.MODIFIED_ROUND).to_string()
+        modified_aes_time_encrypted1 = encrypt(plaintext1, cipherkey, mode=Mode.MODIFIED_TIME).to_string()
+        modified_aes_time_encrypted2 = encrypt(plaintext2, cipherkey, mode=Mode.MODIFIED_TIME).to_string()
         aes_avalanche_value = avalanche(aes_encrypted1, aes_encrypted2)
         josephus_avalanche_value = avalanche(josephus_encrypted1, josephus_encrypted2)
-        modified_aes_avalanche_value = avalanche(modified_aes_encrypted1, modified_aes_encrypted2)
+        modified_aes_round_avalanche_value = avalanche(modified_aes_round_encrypted1, modified_aes_round_encrypted2)
+        modified_aes_time_avalanche_value = avalanche(modified_aes_time_encrypted1, modified_aes_time_encrypted2)
 
         avalanche_array.append([
             plaintext1, 
@@ -45,9 +48,12 @@ def avalanche_df(row: int) -> pd.DataFrame:
             string_to_hex(josephus_encrypted1), 
             string_to_hex(josephus_encrypted2), 
             josephus_avalanche_value,
-            string_to_hex(modified_aes_encrypted1),
-            string_to_hex(modified_aes_encrypted2),
-            modified_aes_avalanche_value
+            string_to_hex(modified_aes_round_encrypted1),
+            string_to_hex(modified_aes_round_encrypted2),
+            modified_aes_round_avalanche_value,
+            string_to_hex(modified_aes_time_encrypted1),
+            string_to_hex(modified_aes_time_encrypted2),
+            modified_aes_time_avalanche_value
             ])
 
     avalanche_df = pd.DataFrame(avalanche_array, columns=[
@@ -59,8 +65,12 @@ def avalanche_df(row: int) -> pd.DataFrame:
         "Josephus_AES_Ciphertext_1", 
         "Josephus_AES_Ciphertext_2", 
         "Josephus_AES_Avalanche",
-        "Modified_AES_Ciphertext_1", 
-        "Modified_AES_Ciphertext_2", 
-        "Modified_AES_Avalanche"])
+        "Modified_AES_Round_Ciphertext_1", 
+        "Modified_AES_Round_Ciphertext_2", 
+        "Modified_AES_Round_Avalanche",
+        "Modified_AES_Time_Ciphertext_1", 
+        "Modified_AES_Time_Ciphertext_2", 
+        "Modified_AES_Time_Avalanche",
+        ])
         
     return avalanche_df

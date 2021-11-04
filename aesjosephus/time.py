@@ -32,22 +32,29 @@ def time_df(row: int) -> pd.DataFrame:
         plaintext = random_string(16)
         aes_encrypted,  aes_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.ORIGINAL)
         josephus_encrypted, josephus_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.JOSEPHUS)
-        modified_aes_encrypted, modified_aes_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.MODIFIED_ORIGINAL)
+        modified_aes_round_encrypted, modified_aes_round_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.MODIFIED_ROUND)
+        modified_aes_time_encrypted, modified_aes_time_encryption_time = timed_encrypt(plaintext, cipherkey, Mode.MODIFIED_TIME)
         _, aes_decryption_time = timed_decrypt(aes_encrypted, cipherkey, Mode.ORIGINAL)
         _, josephus_decryption_time = timed_decrypt(josephus_encrypted, cipherkey, Mode.JOSEPHUS)
-        _, modified_aes_decryption_time = timed_decrypt(modified_aes_encrypted, cipherkey, Mode.MODIFIED_ORIGINAL)
+        _, modified_aes_round_decryption_time = timed_decrypt(modified_aes_round_encrypted, cipherkey, Mode.MODIFIED_ROUND)
+        _, modified_aes_time_decryption_time = timed_decrypt(modified_aes_time_encrypted, cipherkey, Mode.MODIFIED_TIME)
         time_array.append([
             aes_encryption_time, 
             aes_decryption_time, 
             josephus_encryption_time, 
             josephus_decryption_time,
-            modified_aes_encryption_time,
-            modified_aes_decryption_time])
+            modified_aes_round_encryption_time,
+            modified_aes_round_decryption_time,
+            modified_aes_time_encryption_time,
+            modified_aes_time_decryption_time
+            ])
     time_df = pd.DataFrame(time_array, columns=[
         "Original_AES_Encryption_Time", 
         "Original_AES_Decryption_Time", 
         "Josephus_AES_Encryption_Time", 
         "Josephus_AES_Decryption_Time",
-        "Modified_AES_Encryption_Time", 
-        "Modified_AES_Decryption_Time"])
+        "Modified_AES_round_Encryption_Time", 
+        "Modified_AES_round_Decryption_Time",
+        "Modified_AES_time_Encryption_Time", 
+        "Modified_AES_time_Decryption_Time"])
     return time_df
